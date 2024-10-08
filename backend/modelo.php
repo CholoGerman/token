@@ -1,17 +1,15 @@
 <?php
 
-class Modelo {
-  private $credenciales = [
-    'usuario' => 'mi_usuario',
-    'contraseña' => 'mi_contraseña'
-  ];
+require_once "conexion.php";
 
-  public function crearToken($username, $password) {
-    if ($username === $this->credenciales['usuario'] && $password === $this->credenciales['contraseña']) {
-      $token = hash_hmac('sha256', 'mi_mensaje', 'mi_llave_secreta');
-      return $token;
-    } else {
-      return false;
+class SesionDAO {
+    private $conn;
+    function getUsuarioCorreo($correo) {
+        $query = "SELECT * FROM usuarios WHERE correo = '$correo'";
+        $result = mysqli_query($this->conn, $query);
+        $usuario = mysqli_fetch_assoc($result);
+        return $usuario;
     }
-  }
 }
+
+?>

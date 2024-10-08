@@ -1,17 +1,22 @@
-const form = document.getElementById('login-form');
-const tokenContainer = document.getElementById('token-container');
+window.onload = () => {
+
+
+}
+
+let form = document.getElementById('login-form');
+let tokenContainer = document.getElementById('token-container');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  let username = document.getElementById('username').value;
-  let password = document.getElementById('password').value;
+  let correo = document.getElementById('correo').value;
+  let contraseña = document.getElementById('contraseña').value;
 
   fetch('controlador.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ correo, contraseña })
   })
   .then(response => response.json())
   .then(data => {

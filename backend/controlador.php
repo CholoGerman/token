@@ -1,16 +1,18 @@
 <?php
 require_once 'modelo.php';
+function login(){
+    $correo = $_POST['correo'];
+    $contraseña = $_POST['contraseña'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
+    $dao = new SesionDAO();
+    $usuario = $dao->getUsuarioCorreo($correo);
 
-  $modelo = new Modelo();
-  $token = $modelo->crearToken($username, $password);
-
-  if ($token) {
-    echo json_encode(['token' => $token]);
-  } else {
-    echo json_encode(['error' => 'Credenciales incorrectas']);
-  }
+    if ($usuario && password_verify($contraseña, $usuario['contraseña'])) {
+        session_start();
+        $_SESSION['correo'] = $correo;
+        echo "¡Contraseña correcta!";
+    } else {
+        echo "Correo o contraseña incorrectos.";
+        session_destroy();
+    }
 }
